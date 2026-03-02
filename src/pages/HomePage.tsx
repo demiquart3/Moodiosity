@@ -14,7 +14,7 @@ export default function HomePage() {
 
   return (
     <div className="display">
-      <Header></Header>
+      <Header color="yellow"></Header>
       <div className="greeting-text">
         <h2>Discover yourself, improve your mood and life</h2>
         <p>

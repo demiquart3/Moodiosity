@@ -1,5 +1,13 @@
+body {
+  background: rgba(150, 168, 86, 1);
+
+  background-image: url("src/images/background 3.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+}
+
 .quiz-wrapper {
-  background: rgba(254, 190, 155, 1);
   display: grid;
   place-items: center;
   height: 100vh;

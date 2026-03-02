@@ -1,6 +1,9 @@
 html,
 body {
-  height: 100%;
+  background-image: url("src/images/background 1.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
 }
 body {
   margin: 0;
@@ -13,7 +16,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   min-height: 100dvh;
-  background: linear-gradient(135deg, #e0e7ff, #f0f0f0);
+
   font-family: "Segoe UI", Tahoma, sans-serif;
   perspective: 1000px;
   box-sizing: border-box;
@@ -45,58 +48,6 @@ body {
   max-width: 1200px;
   width: 100%;
   box-sizing: border-box;
-}
-
-.card {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  margin-top: 80px;
-}
-
-.card.large {
-  width: 240px;
-  height: 290px;
-  border-radius: 20px;
-}
-
-.card.small {
-  width: 140px;
-  height: 190px;
-  border-radius: 10px;
-}
-
-.card:hover {
-  filter: brightness(1.05);
-  transition: filter 0.3s ease;
-}
-
-.card:hover {
-  background-size: 100%;
-  cursor: pointer;
-  transition: all 0.5s ease;
-}
-
-.card:hover {
-  background-size: 100%;
-  cursor: pointer;
-  transition: all 0.5s ease;
-}
-
-.card.bored,
-.card.happy,
-.card.sad,
-.card.angry {
-  background-size: cover;
-  background-position: center;
-}
-
-.textBox {
-  width: min(600px, 100%);
-  height: auto;
-  min-height: 300px;
-}
-
-.cardText {
-  font-size: 10px;
 }
 
 .takeATestSection {

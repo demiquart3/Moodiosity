@@ -50,7 +50,7 @@ function App() {
 
   return (
     <div id="display" className={dark ? "dark" : ""}>
-      <Header></Header>
+      <Header color="peach"></Header>
       <div id="InputContainer" className={dark ? "dark" : ""}>
         <h1>Hi {name || "stranger"}! What&apos;s your name?</h1>
 

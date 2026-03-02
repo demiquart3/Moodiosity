@@ -2,11 +2,12 @@ import "./Header.css";
 
 type HeaderProps = {
   className?: string;
+  color?: "green" | "yellow" | "peach";
 };
 
-export default function Header({ className }: HeaderProps) {
+export default function Header({ className, color }: HeaderProps) {
   return (
-    <div className={`main-header ${className ?? ""}`}>
+    <div className={`main-header ${color} ${className ?? ""}`}>
       <a className="header-links" href="/">
         Home
       </a>

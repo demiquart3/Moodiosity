@@ -10,6 +10,18 @@
   border-radius: 40px;
 }
 
+.main-header .green {
+  background-color: rgba(150, 168, 86, 1);
+}
+
+.main-header .yellow {
+  background-color: rgba(255, 236, 193, 1);
+}
+
+.main-header .peach {
+  background-color: rgba(254, 190, 155, 1);
+}
+
 .main-header .header-links {
   width: 100%;
   max-width: 948px;

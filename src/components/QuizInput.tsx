@@ -20,7 +20,7 @@ export default function QuizInput({
         type="radio"
         className={`quiz-selection ${selected ? "is-selected" : ""}`}
         checked={selected}
-        value={String(value)}
+        value={Number(value)}
         onChange={onChange}
       ></input>
       <label className="quiz-question">{text}</label>

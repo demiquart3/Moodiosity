@@ -38,17 +38,6 @@ export default function Gallery() {
     "angry",
   ];
 
-  const cardImages = {
-    sad: "/src/images/sad.png",
-    bored: "/src/images/bored.jpg",
-    happy: "/src/images/happy.jpg",
-    angry: "/src/images/angry.jpg",
-  };
-
-  React.useEffect(() => {
-    localStorage.setItem("selected", JSON.stringify(selected));
-  }, [selected]);
-
   const cardText = {
     sad: `😢 You are sad, which means… 
     …you feel down and heavy inside right now.
@@ -67,6 +56,10 @@ Sadness is a normal emotion. It helps you understand that something important ma
     angry: "angry",
   };
 
+  React.useEffect(() => {
+    localStorage.setItem("selected", JSON.stringify(selected));
+  }, [selected]);
+
   const isCardSelected = cards.some((card) => selected[card]);
 
   return (
@@ -76,7 +69,6 @@ Sadness is a normal emotion. It helps you understand that something important ma
         {cards.map((card) =>
           !isCardSelected || selected[card] ? (
             <MoodCard
-              img={cardImages[card]}
               mood={card}
               key={card}
               selected={selected[card]}

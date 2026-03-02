@@ -5,15 +5,16 @@ import "./App.tsx";
 import QuizInput from "../components/QuizInput.tsx";
 import "./Quiz-page.css";
 import Header from "../components/Header";
+import MoodCard from "../components/Card";
+import Button from "../components/Button";
 
 export default function QuizPage() {
   type Question = {
-    id: number;
     text: string;
     options: {
-      id: number;
+      key: number;
       text: string;
-      value: number;
+      score: number;
     }[];
   };
 
@@ -31,116 +32,121 @@ export default function QuizPage() {
 
   const questions: Question[] = [
     {
-      id: 1,
       text: "How are you feeling right now?",
       options: [
-        { id: 1, text: "Good, full of energy", value: 1 },
-        { id: 2, text: "Neutral", value: 2 },
-        { id: 3, text: "Tired or low", value: 3 },
-        { id: 4, text: "Exhausted or unwell", value: 4 },
+        { key: 1, text: "Good, full of energy", score: 1 },
+        { key: 2, text: "Neutral", score: 2 },
+        { key: 3, text: "Tired or low", score: 3 },
+        { key: 4, text: "Exhausted or unwell", score: 4 },
       ],
     },
     {
-      id: 2,
       text: "Which option best describes your mood today?",
       options: [
-        { id: 1, text: "Happy or inspired", value: 1 },
-        { id: 2, text: "Calm", value: 2 },
-        { id: 3, text: "Anxious or sad", value: 3 },
-        { id: 4, text: "Very distressed or overwhelmed", value: 4 },
+        { key: 11, text: "Happy or inspired", score: 1 },
+        { key: 12, text: "Calm", score: 2 },
+        { key: 13, text: "Anxious or sad", score: 3 },
+        { key: 14, text: "Very distressed or overwhelmed", score: 4 },
       ],
     },
     {
-      id: 3,
       text: "What is your energy level today?",
       options: [
-        { id: 1, text: "High", value: 1 },
-        { id: 2, text: "Medium", value: 2 },
-        { id: 3, text: "Low", value: 3 },
-        { id: 4, text: "Very low or drained", value: 4 },
+        { key: 21, text: "High", score: 1 },
+        { key: 22, text: "Medium", score: 2 },
+        { key: 23, text: "Low", score: 3 },
+        { key: 24, text: "Very low or drained", score: 4 },
       ],
     },
     {
-      id: 4,
       text: "How do you react to things around you right now?",
       options: [
-        { id: 1, text: "Positively", value: 1 },
-        { id: 2, text: "Neutrally", value: 2 },
-        { id: 3, text: "Irritated", value: 3 },
-        { id: 4, text: "Highly reactive or overwhelmed", value: 4 },
+        { key: 31, text: "Positively", score: 1 },
+        { key: 32, text: "Neutrally", score: 2 },
+        { key: 33, text: "Irritated", score: 3 },
+        { key: 34, text: "Highly reactive or overwhelmed", score: 4 },
       ],
     },
   ];
 
   const [result, setResult] = React.useState(0);
-
   const [activeQuestion, setActiveQuestion] = React.useState(0); // (0)
 
-  function handleClick(e: React.ChangeEvent<HTMLInputElement>) {
-    /* const index = questions.findIndex(
+  // stale closure?
+  const handleClick = React.useCallback(
+    (score: number) => {
+      setActiveQuestion(activeQuestion + 1);
+      setResult(result + score);
+    },
+    [activeQuestion],
+  );
+
+  const question = questions[activeQuestion];
+  // useCallback
+  /* function handleClick(score: number) {
+    const index = questions.findIndex(
       (question) => question.id === activeQuestion,
-    ); */
-    setActiveQuestion((prev) => prev + 1);
+    ); 
+    setActiveQuestion(activeQuestion + 1);
+
+    setResult(result + score);
+
+    console.log("score", setResult);
 
     console.log("index:", setActiveQuestion);
-
-    const values = questions[0].options.map((opt) => opt.value);
-
-    console.log("values:", values);
 
     /* setResult((prev) => prev + values)
 
     console.log("result:", totalResult); 
     */
 
-    /* const isLast = index === questions.length - 1;
+  /* const isLast = index === questions.length - 1;
     if (!isLast) {
       setActiveQuestion(questions[index + 1].id);
     } else {
     }*/
 
-    /* console.log("isLast:", isLast);
+  /* console.log("isLast:", isLast);
 
     const points = Number(e.currentTarget.value);
     setResult((prev) => prev + points);
     console.log("points (number):", points);
     setFinished((prev) => ({ ...prev, [activeQuestion]: true })); */
 
-    /*if (points <= 10) {
+  /*if (points <= 10) {
       alert("You're doing okay");
     } else {
       alert("You need help");
     }
       */
-  }
-
-  const question = questions[activeQuestion];
 
   return (
     <div className="quiz-wrapper">
-      <Header></Header>
+      <Header color="yellow"></Header>
 
       <div>
         {activeQuestion < questions.length ? (
-          <div key={question.id}>
+          <div>
             <h3 className="question-text">{question.text}</h3>
             {question.options.map((opt) => (
               <QuizInput
-                key={opt.id}
+                key={opt.key}
+                selected={false}
                 text={opt.text}
-                value={opt.value}
-                onChange={handleClick}
+                value={opt.score}
+                onChange={() => {
+                  handleClick(Number(opt.score));
+                }}
               />
             ))}
           </div>
         ) : (
           <div>
-            <h2>Fertig!</h2>
+            Result: {result}
+            <MoodCard size="large"></MoodCard>
           </div>
         )}
       </div>
-
-      <div></div>
     </div>
   );
 }

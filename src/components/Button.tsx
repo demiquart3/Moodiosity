@@ -1,3 +1,5 @@
+import "./Button.css";
+
 type ButtonProps = {
   disabled?: boolean;
   buttonName: string;
