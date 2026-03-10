@@ -65,8 +65,7 @@ export default function QuizPage() {
   // every answer = one score. a box has only one cell for every chosen option. click = one cell is filled.
   // useMemo is a React Hook that lets you cache the result of a calculation
   // between re-renders. const cachedValue = useMemo(calculateValue, dependencies)
-  // empty array
-  const [answers, setAnswers] = React.useState<number[]>([]);
+  const [answers, setAnswers] = React.useState<number[]>([]);    // created an empty array
 
   // error text
   const [inputValid, setInputValid] = React.useState<string | undefined>(

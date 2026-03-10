@@ -1,66 +1,57 @@
-import { useNavigate } from "react-router-dom";
 import * as React from "react";
 import "./Cards.css";
-import "./App.tsx";
-import Button from "../components/Button";
 import Header from "../components/Header";
+import Button from "../components/Button";
+import { useState, useEffect } from "react";
 
 export default function Diary() {
-  type Question = {
-    text: string;
-    key: number;
-  };
-
-  const questions: Question[] = [
-    {
-      key: 1,
-      text: "What did you feel today?",
-    },
-    {
-      key: 2,
-      text: "What did you do today?",
-    },
-    {
-      key: 3,
-      text: "Is there is something that made you feel better today?",
-    },
+  const questions = [
+    "What did you feel today?",
+    "What did you do today?",
+    "What made you feel better today?",
   ];
-  const [diary, setDiary] = React.useState([""]);
-  const [newDiary, setNewDiary] = React.useState("");
-
-  const [question, setQuestion] = React.useState([]);
-
-  (Array.from({ length: questions.length }, () => null), []);
 
   const [activeQuestion, setActiveQuestion] = React.useState(0);
+  const [answer, setAnswer] = React.useState("");
+  const [answers, setAnswers] = React.useState<string[]>([]);
+  const [diary, setDiary] = React.useState<string[][]>([]);
+  const [date, setDate] = React.useState("");
+  const [logDate, setLogDate] = React.useState<string[]>([]);
 
-  React.useEffect(() => {
-    localStorage.setItem("diary", JSON.stringify(diary));
-  }, [diary]);
+  localStorage.setItem("logDate", JSON.stringify(logDate));
+  localStorage.setItem("answers", JSON.stringify(answers));
 
-  function handleSubmit(e: React.ChangeEvent<HTMLInputElement>) {
-    e.preventDefault();
-    setNewDiary(e.currentTarget.value);
+  function nextQuestion() {
+    if (!answer.trim()) return;
+    setAnswers((prev) => [...prev, answer]);
+    setAnswer("");
     setActiveQuestion(activeQuestion + 1);
   }
 
-  console.log("active question", activeQuestion);
-  console.log("diary", diary);
-
-  function addDiaryLog() {
-    setDiary((prev) => [...prev, newDiary]);
-    setNewDiary("");
+  function saveDiary() {
+    if (answers.length === 0) return;
+    setDiary((prev) => [...prev, answers]);
+    setAnswers([]);
+    setAnswer("");
+    setActiveQuestion(0);
+    setDate("");
+    setLogDate((prev) => [...prev, date]);
   }
 
-  console.log("new diary", newDiary);
-
-  function deleteDiaryLog() {
+  function deleteDiary() {
     setDiary([]);
   }
 
-  function changeDiaryLog() {}
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (activeQuestion < questions.length) {
+      nextQuestion();
+      return;
+    }
+    saveDiary();
+  }
 
-  const isQuestionActive = questions[activeQuestion];
+  const isFinished = activeQuestion >= questions.length;
 
   return (
     <div className="diary">
@@ -69,59 +60,65 @@ export default function Diary() {
       <div className="diary-grid">
         <h2 className="title">Welcome to your Diary</h2>
 
+        <label htmlFor="start">Start date:</label>
+        <input
+          type="date"
+          id="start"
+          name="trip-start"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+        />
+
         <p className="subtitle">
-          Here you can add the date and what you felt on a particular day and
-          save it to track changes.
+          Here you can answer a few questions and save your thoughts.
         </p>
 
-        {}
-        <form className="form">
-          <label htmlFor="start" className="label">
-            Today's date:
-          </label>
-          <input
-            type="date"
-            id="start"
-            name="trip-start"
-            defaultValue="2026-07-22"
-            min="2026-01-01"
-            max="2026-12-31"
-            className="input"
-          />
+        <form className="form" onSubmit={handleSubmit}>
+          {!isFinished ? (
+            <>
+              <p className="question">{questions[activeQuestion]}</p>
 
-          {activeQuestion < questions.length ? (
-            <label htmlFor="feelings" className="label">
-              What did you feel?
-            </label>
-          ) : null}
+              <input
+                type="text"
+                className="input"
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                placeholder="Write a short note…"
+              />
 
-          <input
-            id="feelings"
-            type="text"
-            className="input"
-            value={newDiary}
-            onChange={handleSubmit}
-            placeholder="Write a short note…"
-          />
-          <div>
-            <div className="diaryTextQuestion1">
-              <p>{diary}</p>
+              <div className="actions">
+                <Button size="large" buttonName="Next" type="submit" />
+              </div>
+            </>
+          ) : (
+            <div className="actions">
+              <Button size="large" buttonName="Save" type="submit" />
             </div>
-            <div className="diaryTextQuestion2">
-              <p></p>
-            </div>
-            <div className="diaryTextQuestion3">
-              <p></p>
-            </div>
-          </div>
-
-          {}
-          <div className="actions">
-            <Button size="large" buttonName="Save" onClick={addDiaryLog} />
-            <Button size="large" buttonName="Delete" onClick={deleteDiaryLog} />
-          </div>
+          )}
         </form>
+
+        <div className="diary-list">
+          {diary.map((entry, i) => (
+            <div key={i} className="diary-entry">
+              {logDate}
+              {entry.map((text, j) => (
+                <p key={j}>* {text}</p>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {diary.length > 0 && (
+          <div className="actions">
+            <Button
+              size="large"
+              buttonName="Delete all"
+              onClick={deleteDiary}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
 }
+``;
