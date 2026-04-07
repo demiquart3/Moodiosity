@@ -39,24 +39,6 @@ export default function Gallery() {
     "angry",
   ];
 
-  const cardText = {
-    sad: `😢 You are sad, which means… 
-    …you feel down and heavy inside right now.
-    You may feel lonely, miss someone, or feel upset because something didn’t happen the way you expected.
-    Sometimes sadness comes without a clear reason — simply because you are tired.
-    In this state, you may:
-
-- want to be alone, or on the contrary, want someone to be close;
-- feel like listening to sad music or watching calm, emotional movies;
-- have less energy and motivation;
-- think more about the past.
-
-Sadness is a normal emotion. It helps you understand that something important matters to you and that you may need care, comfort, or rest.`,
-    bored: "bored",
-    happy: "happy",
-    angry: "angry",
-  };
-
   React.useEffect(() => {
     localStorage.setItem("selected", JSON.stringify(selected));
   }, [selected]);
@@ -65,7 +47,7 @@ Sadness is a normal emotion. It helps you understand that something important ma
 
   return (
     <div id="Display">
-      <Header color="yellow"></Header>
+      <Header></Header>
       <h2 id="GalleryTitle">Choose your mood, {name}</h2>
       <section id="GalleryRow">
         {cards.map((card) =>
@@ -85,34 +67,30 @@ Sadness is a normal emotion. It helps you understand that something important ma
           ) : undefined,
         )}
 
-        <section className="textBox">
-          {Object.entries(cardText).map(
-            (
-              [key, value], // Object.keys, Object.value
-            ) =>
-              isCardSelected && selected[key as keyof typeof selected] ? (
-                <div>{value}</div>
-              ) : undefined,
-          )}
-        </section>
         <section className="takeATestSection">
           <p className="takeATestParagraph">
             or you can take a test to determine your mood
           </p>
-          <div className="takeATestButtonWrapper">
-            <div className="quizButtonWrapper">
-              <Button
-                size="small"
-                onClick={handleQuizPage}
-                buttonName="Take Quiz"
-              />
+          <div className="buttonsWrapper">
+            <div className="takeATestButtonWrapper">
+              <div className="quizButtonWrapper">
+                <Button
+                  size="small"
+                  onClick={handleQuizPage}
+                  buttonName="Take A Test"
+                />
+                <div className="goBackButtonWrapper">
+                  <Button
+                    size="small"
+                    onClick={handleGoBack}
+                    buttonName="Go Back"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </section>
       </section>
-      <div className="goBackButtonWrapper">
-        <Button size="small" onClick={handleGoBack} buttonName="Go Back" />
-      </div>
     </div>
   );
 }

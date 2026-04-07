@@ -1,4 +1,5 @@
 import "./Card.css";
+import * as React from "react";
 
 type CardProps = {
   selected?: boolean;
@@ -33,17 +34,28 @@ Sadness is a normal emotion. It helps you understand that something important ma
   angry: "angry",
 };
 
-export default function MoodCard({ mood, onClick, size = "large" }: CardProps) {
+export default function MoodCard({ mood, onClick, size }: CardProps) {
   const img = cardImages[mood];
-  const txt = cardText[mood];
+
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  function handleClick() {
+    setIsOpen((prev) => !prev);
+    if (onClick) {
+      onClick();
+    }
+  }
+
   return (
     <div>
       <div
-        onClick={onClick}
+        onClick={handleClick}
         style={{ backgroundImage: `url(${img})` }}
         className={`card ${mood} ${size}`}
-      ></div>
-      <div className={`text ${txt}`}></div>
+      />
+
+      {isOpen && <section className="textBox">{cardText[mood]}</section>}
     </div>
   );
 }
+``;

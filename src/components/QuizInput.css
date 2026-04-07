@@ -13,19 +13,14 @@
   background-color: rgb(249, 212, 192);
 }
 
+.quiz-selection-container.is-selected {
+  background-color: rgb(44, 116, 44);
+}
+
 .quiz-selection {
   display: flex;
   align-items: center;
-  height: 70px;
-  border: 5px solid black;
-}
-
-.quiz-selection.selected {
-  background-color: green;
-}
-
-.quiz-input:hover {
-  background-color: rgb(137, 23, 23);
+  height: 0px;
 }
 
 .quiz-question {

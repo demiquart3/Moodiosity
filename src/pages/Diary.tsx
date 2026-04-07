@@ -2,7 +2,6 @@ import * as React from "react";
 import "./Cards.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
-import { useState, useEffect } from "react";
 
 export default function Diary() {
   const questions = [
@@ -13,41 +12,121 @@ export default function Diary() {
 
   const [activeQuestion, setActiveQuestion] = React.useState(0);
   const [answer, setAnswer] = React.useState("");
+
   const [answers, setAnswers] = React.useState<string[]>([]);
+
   const [diary, setDiary] = React.useState<string[][]>([]);
-  const [date, setDate] = React.useState("");
   const [logDate, setLogDate] = React.useState<string[]>([]);
+  const [date, setDate] = React.useState("");
 
-  localStorage.setItem("logDate", JSON.stringify(logDate));
-  localStorage.setItem("answers", JSON.stringify(answers));
+  const [editingIndex, setEditingIndex] = React.useState<number | null>(null);
+  const [draft, setDraft] = React.useState<string[]>([]);
 
-  function nextQuestion() {
+  React.useEffect(() => {
+    localStorage.setItem("diary", JSON.stringify(diary));
+    localStorage.setItem("logDate", JSON.stringify(logDate));
+  }, [diary, logDate]);
+
+  React.useEffect(() => {
+    const savedDiary = localStorage.getItem("diary");
+    const savedLogDate = localStorage.getItem("logDate");
+
+    if (savedDiary) {
+      setDiary(JSON.parse(savedDiary));
+    }
+
+    if (savedLogDate) {
+      setLogDate(JSON.parse(savedLogDate));
+    }
+  }, []);
+
+  const nextQuestion = React.useCallback(() => {
     if (!answer.trim()) return;
-    setAnswers((prev) => [...prev, answer]);
+
+    setAnswers([...answers, answer]);
     setAnswer("");
     setActiveQuestion(activeQuestion + 1);
-  }
+  }, [answer, answers, activeQuestion]);
 
-  function saveDiary() {
+  const saveDiary = React.useCallback(() => {
     if (answers.length === 0) return;
-    setDiary((prev) => [...prev, answers]);
+    if (!date) return;
+
+    const selectedDate = new Date(date);
+    let day = selectedDate.getDate();
+    let month = selectedDate.getMonth() + 1;
+    let year = selectedDate.getFullYear();
+
+    let selectedDateStr = `${day}-${month}-${year}`;
+
+    const today = new Date();
+    let todayStr = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+
+    if (selectedDateStr !== todayStr) {
+      alert("Please choose today's date.");
+      return;
+    }
+
+    if (date !== today.toISOString().split("T")[0]) {
+      alert("Please choose today's date.");
+      return;
+    }
+
+    setDiary([...diary, answers]);
+    setLogDate([...logDate, selectedDateStr]);
+    setDate("");
     setAnswers([]);
     setAnswer("");
     setActiveQuestion(0);
-    setDate("");
-    setLogDate((prev) => [...prev, date]);
-  }
+  }, [answers, date, diary, logDate]);
 
-  function deleteDiary() {
+  const handleEditStart = (index: number) => {
+    setEditingIndex(index);
+    setDraft([...diary[index]]);
+  };
+
+  const handleDraftChange = (lineIndex: number, value: string) => {
+    setDraft((prev) => {
+      const copy = [...prev];
+      copy[lineIndex] = value;
+      return copy;
+    });
+  };
+
+  const handleSave = () => {
+    if (editingIndex === null) return;
+
+    setDiary((prev) => {
+      const copy = [...prev];
+      copy[editingIndex] = [...draft];
+      return copy;
+    });
+
+    setEditingIndex(null);
+    setDraft([]);
+  };
+
+  const handleCancel = () => {
+    setEditingIndex(null);
+    setDraft([]);
+  };
+  ``;
+
+  const deleteDiary = React.useCallback(() => {
     setDiary([]);
-  }
+    setLogDate([]);
+    localStorage.removeItem("diary");
+    localStorage.removeItem("logDate");
+  }, []);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     if (activeQuestion < questions.length) {
       nextQuestion();
       return;
     }
+
     saveDiary();
   }
 
@@ -100,14 +179,45 @@ export default function Diary() {
         <div className="diary-list">
           {diary.map((entry, i) => (
             <div key={i} className="diary-entry">
-              {logDate}
-              {entry.map((text, j) => (
-                <p key={j}>* {text}</p>
-              ))}
+              <strong>{logDate[i]}</strong>
+
+              {editingIndex === i ? (
+                <>
+                  {draft.map((text, j) => (
+                    <input
+                      key={j}
+                      value={text}
+                      onChange={(e) => handleDraftChange(j, e.target.value)}
+                    />
+                  ))}
+
+                  <Button
+                    buttonName="save"
+                    size="small"
+                    onClick={handleSave}
+                  ></Button>
+                  <Button
+                    buttonName="cancel"
+                    size="small"
+                    onClick={handleCancel}
+                  ></Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    buttonName="change"
+                    size="small"
+                    onClick={() => handleEditStart(i)}
+                  ></Button>
+
+                  {entry.map((text, j) => (
+                    <p key={j}>{text}</p>
+                  ))}
+                </>
+              )}
             </div>
           ))}
         </div>
-
         {diary.length > 0 && (
           <div className="actions">
             <Button
@@ -121,4 +231,3 @@ export default function Diary() {
     </div>
   );
 }
-``;

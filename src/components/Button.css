@@ -36,17 +36,6 @@
 
 .button:disabled {
   background: linear-gradient(135deg, #8a8ea1, hsl(268, 5%, 49%));
-  color: white;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 15px 24px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  margin-top: 20px;
-  margin-left: 60px;
 }
 
 .button.large {
