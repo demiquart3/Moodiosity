@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./App.css";
-import Button from "../components/Button";
-import Header from "../components/Header";
+import "./app.css";
+import Button from "../components/button";
+import Header from "../components/header";
 
 function App() {
   const [name, setName] = React.useState("");
@@ -59,7 +59,7 @@ function App() {
   console.log(name);
 
   return (
-    <div id="display" className={dark ? "dark" : ""}>
+    <div id="display">
       <Header color="peach"></Header>
       <div id="InputContainer" className={dark ? "dark" : ""}>
         <h1>Hi {name || "stranger"}! What&apos;s your name?</h1>

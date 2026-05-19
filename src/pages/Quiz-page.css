@@ -1,14 +1,5 @@
 body {
-  background: rgba(150, 168, 86, 1);
-  background-image: url("src/images/background 3.png");
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
+  background: rgba(45, 50, 80, 1);
 }
 
 .quiz-wrapper {
@@ -16,15 +7,16 @@ body {
   place-items: center;
   padding: 10px;
   width: 100%;
-  max-width: 800px;
   margin-top: 50px;
 }
 
 .question-text {
   font-family: "Bungee", sans-serif;
   font-size: 20px;
+  padding-top: 50px;
   margin: 0;
   text-align: center;
+  color: white;
 }
 
 .resultPage {
@@ -32,11 +24,16 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding-top: 100px;
+  gap: 50px;
 }
 
 .ButtonsWrapper {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 20px;
   align-items: stretch;
+}
+
+.option-container {
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
-import "./Cards.css";
-import Header from "../components/Header";
-import Button from "../components/Button";
+import "./cards.css";
+import Header from "../components/header";
+import Button from "../components/button";
 
 export default function Diary() {
   const questions = [

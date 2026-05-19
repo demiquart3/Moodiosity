@@ -1,12 +1,12 @@
 import React from "react";
-import "./Cards.css";
-import "./App.tsx";
-import "./App.tsx";
-import QuizInput from "../components/QuizInput.tsx";
-import "./Quiz-page.css";
-import Header from "../components/Header";
-import MoodCard from "../components/Card";
-import Button from "../components/Button";
+import "./cards.css";
+import "./app.tsx";
+import "./app.tsx";
+import QuizInput from "../components/quiz-input.tsx";
+import "./quiz-page.css";
+import Header from "../components/header.tsx";
+import MoodCardText from "../components/card-with-text.tsx";
+import Button from "../components/button.tsx";
 
 export default function QuizPage() {
   type Question = {
@@ -65,7 +65,7 @@ export default function QuizPage() {
   // every answer = one score. a box has only one cell for every chosen option. click = one cell is filled.
   // useMemo is a React Hook that lets you cache the result of a calculation
   // between re-renders. const cachedValue = useMemo(calculateValue, dependencies)
-  const [answers, setAnswers] = React.useState<number[]>([]);    // created an empty array
+  const [answers, setAnswers] = React.useState<number[]>([]); // created an empty array
 
   // error text
   const [inputValid, setInputValid] = React.useState<string | undefined>(
@@ -110,69 +110,67 @@ export default function QuizPage() {
     [answers],
   );
 
-  console.log("answer", answers);
-
   // querySelector
   return (
     <div className="quiz-wrapper">
       <Header color="yellow"></Header>
 
-      <div>
-        {activeQuestion < questions.length ? (
+      {activeQuestion < questions.length ? (
+        <div className="quiz-content">
+          {" "}
           <div>
             <h3 className="question-text">
               {" "}
-              {name}
-              {question.text}
+              {name}, {question.text}
             </h3>
             {question.options.map((opt) => (
-              <QuizInput
-                name={`question_${activeQuestion + 1}`}
-                key={opt.key}
-                selected={answers[activeQuestion] === opt.score} // option highlight
-                text={opt.text}
-                value={opt.score}
-                onChange={() => {
-                  handleSelect(Number(opt.score)); // put it in answers
-                }}
-              />
+              <div>
+                <QuizInput
+                  name={`question_${activeQuestion + 1}`}
+                  key={opt.key}
+                  selected={answers[activeQuestion] === opt.score} // option highlight
+                  text={opt.text}
+                  value={opt.score}
+                  onChange={() => {
+                    handleSelect(Number(opt.score)); // put it in answers
+                  }}
+                />
+              </div>
             ))}
-            <div className="ButtonsWrapper">
-              <div className="previousButton">
-                <Button
-                  size="large"
-                  disabled={answers[activeQuestion] == null}
-                  onClick={handlePrevious}
-                  buttonName="previous"
-                ></Button>
-              </div>
-              <div className="nextButton">
-                <Button
-                  size="large"
-                  disabled={answers[activeQuestion] == null} // blocking next if the option is not chosen
-                  onClick={handleClick} // if yes go next
-                  buttonName="next"
-                ></Button>
-              </div>
+          </div>
+          <div className="ButtonsWrapper">
+            <div className="previousButton">
+              <Button
+                size="large"
+                disabled={answers[activeQuestion] == null}
+                onClick={handlePrevious}
+                buttonName="previous"
+              ></Button>
             </div>
-            <p>{inputValid}</p>
+            <div className="nextButton">
+              <Button
+                size="large"
+                disabled={answers[activeQuestion] == null} // blocking next if the option is not chosen
+                onClick={handleClick} // if yes go next
+                buttonName="next"
+              ></Button>
+            </div>
           </div>
-        ) : (
-          <div className="resultPage">
-            Result:
-            {total}
-            {total <= 4 ? (
-              <MoodCard size="large" mood="happy"></MoodCard>
-            ) : total <= 8 ? (
-              <MoodCard size="large" mood="bored"></MoodCard>
-            ) : total <= 12 ? (
-              <MoodCard size="large" mood="sad"></MoodCard>
-            ) : (
-              <MoodCard size="large" mood="angry"></MoodCard>
-            )}
-          </div>
-        )}
-      </div>
+          <p>{inputValid}</p>
+        </div>
+      ) : (
+        <div className="resultPage">
+          {total <= 4 ? (
+            <MoodCardText size="large" mood="happy"></MoodCardText>
+          ) : total <= 8 ? (
+            <MoodCardText size="large" mood="bored"></MoodCardText>
+          ) : total <= 12 ? (
+            <MoodCardText size="large" mood="sad"></MoodCardText>
+          ) : (
+            <MoodCardText size="large" mood="angry"></MoodCardText>
+          )}
+        </div>
+      )}
     </div>
   );
 }

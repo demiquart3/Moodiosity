@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import * as React from "react";
-import "./Cards.css";
-import "./App.tsx";
-import MoodCard from "../components/Card";
-import Button from "../components/Button";
-import Header from "../components/Header";
+import "./cards.css";
+import "./app.tsx";
+import MoodCard from "../components/card.tsx";
+import Button from "../components/button.tsx";
+import Header from "../components/header.tsx";
 
 export default function Gallery() {
   const navigate = useNavigate();
@@ -66,31 +66,22 @@ export default function Gallery() {
             />
           ) : undefined,
         )}
-
-        <section className="takeATestSection">
-          <p className="takeATestParagraph">
-            or you can take a test to determine your mood
-          </p>
-          <div className="buttonsWrapper">
-            <div className="takeATestButtonWrapper">
-              <div className="quizButtonWrapper">
-                <Button
-                  size="small"
-                  onClick={handleQuizPage}
-                  buttonName="Take A Test"
-                />
-                <div className="goBackButtonWrapper">
-                  <Button
-                    size="small"
-                    onClick={handleGoBack}
-                    buttonName="Go Back"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </section>
+
+      <section className="takeATestSection">
+        <p className="takeATestParagraph">
+          or you can take a test to determine your mood
+        </p>
+      </section>
+
+      <div className="buttonsWrapper">
+        <Button
+          size="small"
+          onClick={handleQuizPage}
+          buttonName="Take A Test"
+        />
+        <Button size="small" onClick={handleGoBack} buttonName="Go Back" />
+      </div>
     </div>
   );
 }

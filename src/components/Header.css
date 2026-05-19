@@ -6,8 +6,8 @@
   height: 58px;
   display: flex;
   align-items: center;
-  background-color: rgba(255, 236, 193, 1);
-  border-radius: 40px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 15px;
 }
 
 .main-header .green {

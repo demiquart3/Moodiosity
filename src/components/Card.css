@@ -3,11 +3,11 @@
   align-items: flex-start;
   gap: 20px;
   width: 100%;
-  flex-wrap: nowrap; /* ✅ не переносить вниз */
+  flex-wrap: nowrap;
 }
 .card {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  margin-top: 80px;
+  margin-top: 50px;
 }
 
 .card.large {

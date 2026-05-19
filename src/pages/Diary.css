@@ -1,15 +1,9 @@
 body {
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-size: cover;
-  background-image: url("src/images/background 1.png");
+  background: rgba(45, 50, 80, 1);
 }
 
 .diary {
   min-height: 100svh;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  padding: 150px;
   color: #f2f3f7;
 }
 
@@ -54,7 +48,7 @@ body {
   grid-column: 1 / -1;
   width: 100%;
   background: #d3d9f5;
-  color: #000000;
+  color: white;
   border: 1px solid #2a3050;
   border-radius: 8px;
   padding: 10px 12px;

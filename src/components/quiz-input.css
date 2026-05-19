@@ -1,0 +1,31 @@
+.quiz-selection-container {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  border-radius: 15px;
+  margin: 33px;
+  width: 500px;
+  height: 78px;
+  filter: drop-shadow(0px 4px 4px rgb(0, 0, 0));
+}
+
+.quiz-selection-container:hover {
+  background-color: rgb(209, 209, 209);
+}
+
+.quiz-selection-container.is-selected {
+  background-color: rgb(114, 123, 172);
+}
+
+.quiz-selection {
+  display: flex;
+  align-items: center;
+  height: 0px;
+}
+
+.quiz-question {
+  width: 500px;
+  padding-top: 25px;
+  text-align: center;
+  font-size: 20px;
+}

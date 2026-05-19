@@ -47,7 +47,7 @@ export default function MoodCard({ mood, onClick, size }: CardProps) {
   }
 
   return (
-    <div>
+    <div className="cardContainer">
       <div
         onClick={handleClick}
         style={{ backgroundImage: `url(${img})` }}
